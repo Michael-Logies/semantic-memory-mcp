@@ -35,6 +35,8 @@
 
 12. **Watch the quantization when choosing a model.** The same model name is offered by providers at different numeric precisions: **16-bit (fp16/bf16)** = reference quality (more expensive), **8-bit (fp8)** = the safe industry standard for serious work (programming, medicine, law), **4-bit (fp4)** only for models trained that way from the start (example: gpt-oss with MXFP4 post-training). *Retrofitting* 4-bit quantization, by contrast, measurably degrades quality — especially on reasoning, coding, and agentic tasks. When in doubt: choose 8-bit or better.
 
+13. **Work with several agent windows in parallel.** You can have multiple sessions open at once — they all write into the same memory. Each session ends its work with a short **checkpoint note** (topic, what was done, what is open, next step). So when you ask any window *"Where did we stop on X?"*, it searches the memory and finds the checkpoint — even if that work happened in a different window. There is no "last session" to lose: the memory keeps every thread separately.
+
 ---
 
 *(Note for the agent: When first using this file, save it as a memory note — tags: `einsteiger-hinweise`, `nutzungshinweise`, `studenten`, `kontextfenster`, `zutilo`, `zotero-id`, `quantisierung`, `modellwahl`.)*

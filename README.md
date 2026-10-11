@@ -26,9 +26,17 @@
 
 AI coding agents forget everything between sessions. File-based memory (markdown indexes that get reloaded) is keyword-based: it has no semantic recall and no ranking — a note saved as *"embedding model comparison"* will not be found when the agent later asks *"which embedding did we test?"*.
 
-This server was built as a working reference implementation and **measured, not assumed**: retrieval quality was tracked throughout development. Recall@5 — the share of queries where the correct note is among the top 5 hits — rose from **68.4 % to 89.2 %** across successive, individually measured optimization steps (chunking, embedding model choice, query rewriting, and more). The full measurement series with a 22-study comparison table is documented here:
+This server was built as a working reference implementation and **measured, not assumed** — see [Evaluation](#evaluation).
+
+## Evaluation
+
+Retrieval quality was tracked throughout development. Recall@5 — the share of queries where the correct note is among the top 5 hits — rose from **68.4 % to 89.2 %** across successive, individually measured optimization steps (chunking, embedding model choice, query rewriting, and more). The full measurement series with a 22-study comparison table is documented here:
 
 **[The Memory Server in the Lab](https://www.logies.de/memory-server-research.html)**
+
+## Working across parallel sessions
+
+You can run several agent sessions at the same time — they all share one memory. Instead of a single "where did I stop?" slot that parallel sessions would overwrite, each session ends its work with a short **checkpoint note** in the memory (topic, what was done, what is open, next step), with the writing agent and model recorded in the `source` field. Asking any window *"Where did we stop on X?"* then finds the answer — even if the work happened in a different window. The convention is part of the agent rules (`memory-mcp-knowledge.md`, R17).
 
 ## Installation
 
@@ -57,7 +65,17 @@ Then register the server in your AI agent's MCP configuration (example for Qwen 
 }
 ```
 
-See `mcp-config.json` for a template. `usage-notes.md` contains practical guidance for working with an agent that has persistent memory (context management, what to store, tagging); the German version ships as `nutzungshinweise.md`.
+If your client has an `mcp add` command, registration is a one-liner once `setup.sh` has created the venv:
+
+```bash
+# Claude Code
+claude mcp add memory -- ~/.venv-memory/bin/python3 /path/to/semantic-memory-mcp/memory_server.py
+
+# Codex CLI
+codex mcp add memory -- ~/.venv-memory/bin/python3 /path/to/semantic-memory-mcp/memory_server.py
+```
+
+See `mcp-config.json` for a template. `usage-notes.md` contains practical guidance for working with an agent that has persistent memory (context management, what to store, tagging, parallel sessions); the German version ships as `nutzungshinweise.md`.
 
 ## Documentation for your AI agent
 

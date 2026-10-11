@@ -2,7 +2,7 @@
 
 > **Purpose:** This document captures the rules and the learning protocol for operating a cross-session memory MCP server in daily agent work. It is designed to be consumed by any AI agent (Qwen Code, Kimi Code, Claude Code, etc.) — so you don't have to take the same detours we took. It complements the setup package (`memory-mcp-setup.zip`) with the part that took the longest to get right: **when to read, when to write, and how the rules evolved.**
 >
-> **Last updated:** 2026-09-20
+> **Last updated:** 2026-10-11
 > **Source:** Michael Logies, ~7 weeks of practical daily use with a local Memory-MCP server (SQLite + sqlite-vec + FTS5 + ONNX embeddings).
 > **License:** CC0 — use freely, no attribution required.
 
@@ -93,6 +93,16 @@ Session handoffs, detailed protocols and document texts belong in a Markdown fil
 The **first line of every entry is weighted preferentially at search time** (a separate index column with 3× BM25 weight, prepended to the embedding) — maintain it as a title-like line containing the terms you would search for later: domain terms **and** the user's everyday words.
 
 *Background:* fact-key studies measure +9.4 % recall from title-like key lines; in our own system the anchor boost delivered the largest single gains of the tuning round (the embedding prefix alone lifted top-1 hits by 6.5 percentage points).
+
+### R17 — End every session with a checkpoint note (parallel sessions)
+
+When several agent sessions run in parallel, "where did I stop?" has no single answer — a single "last session" slot would simply be overwritten by whichever session closes next. Instead, **every session writes one checkpoint note at the end of its work** (or before pausing):
+
+- **First line = search anchor** containing the word `Checkpoint` plus topic and open point, e.g. `Checkpoint Memory-MCP-Website — open: Publii sync` (the anchor line is what R16 makes searchable).
+- **Content** (≤ ~600 characters, R14): what was done, what is open, the next step.
+- **Tags:** `checkpoint` plus the role tag (R6) — for orientation when listing, not for search.
+- **Source = agent + model**, e.g. `Qwen Code / GLM-5.3-flash`. Record both: the agent alone says little about the model that actually did the thinking. Provenance belongs in `source`, **not** in tags — tags are stored but not indexed (the FTS index covers only the content and the anchor line, so there is no tag filter), while `source` is returned and displayed with every hit.
+- *"Where did we stop on X?"* is then a normal `memory_search` — across all parallel sessions at once.
 
 ---
 

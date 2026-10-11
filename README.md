@@ -57,7 +57,7 @@ Then register the server in your AI agent's MCP configuration (example for Qwen 
 }
 ```
 
-See `mcp-config.json` for a template. `usage-notes.md` contains practical guidance for working with an agent that has persistent memory (context management, what to store, tagging).
+See `mcp-config.json` for a template. `usage-notes.md` contains practical guidance for working with an agent that has persistent memory (context management, what to store, tagging); the German version ships as `nutzungshinweise.md`.
 
 ## Documentation for your AI agent
 

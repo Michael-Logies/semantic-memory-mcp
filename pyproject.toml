@@ -22,5 +22,8 @@ dependencies = [
 [project.scripts]
 semantic-memory-mcp = "memory_server:main"
 
+[project.urls]
+Homepage = "https://github.com/Michael-Logies/semantic-memory-mcp"
+
 [tool.setuptools]
 py-modules = ["memory_server"]

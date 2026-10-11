@@ -70,7 +70,8 @@ Two documents ship with this repository, written for the agent rather than the h
 
 This server is the memory layer of a reproducible **AI workstation for students** — a complete setup guide (research, learning, literature work on a Linux machine) documented step by step here:
 
-**[AI workstation for students: research, learning and more](https://www.logies.de/studienarbeitsplatz-linux-vm.html)** (German)
+- **[AI Workstation for Students: Research, Learning, and More](https://www.logies.de/ai-workstation-linux-vm.html)** (English)
+- **[KI-Arbeitsplatz fürs Studium: Recherche, Lernen und mehr](https://www.logies.de/studienarbeitsplatz-linux-vm.html)** (German)
 
 Memory comes in two layers in that setup: this server stores the *working memory* of day-to-day collaboration with the agent, while scholarly literature lives in a Zotero research database made searchable by meaning through a second MCP server ([Zoteus](https://github.com/oscardvs/zoteus)). How the two fit together is described on the project pages:
 

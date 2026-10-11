@@ -35,6 +35,8 @@
 
 12. **Auf die Quantisierung achten, wenn du ein Modell auswählst.** Derselbe Modellname wird bei Anbietern in unterschiedlichen Rechen-Präzisionen angeboten: **16-Bit (fp16/bf16)** = Referenzqualität (teurer), **8-Bit (fp8)** = sicherer Branchenstandard für Facharbeit (Programmieren, Medizin, Jura), **4-Bit (fp4)** nur bei Modellen, die von Anfang an damit trainiert wurden (Beispiel: gpt-oss mit MXFP4-Post-Training). Eine *nachträgliche* 4-Bit-Quantisierung kostet dagegen spürbar Qualität — besonders bei Reasoning-, Code- und Agenten-Aufgaben. Im Zweifel: 8-Bit oder besser wählen.
 
+13. **Mehrere Agenten-Fenster parallel nutzen.** Du kannst mehrere Sitzungen gleichzeitig offen haben — alle schreiben in dasselbe Memory. Jede Sitzung schließt ihre Arbeit mit einer kurzen **Checkpoint-Notiz** (Thema, was erledigt ist, was offen ist, nächster Schritt). Fragst du also irgendein Fenster *„Wo haben wir bei X aufgehört?"*, durchsucht es das Memory und findet den Checkpoint — auch wenn die Arbeit in einem anderen Fenster lief. Es gibt keine „letzte Sitzung", die man verlieren könnte: das Memory führt jeden Faden getrennt.
+
 ---
 
 *(Hinweis für den Agenten: Diese Datei bei der ersten Nutzung als Memory-Notiz speichern — Tags: `einsteiger-hinweise`, `nutzungshinweise`, `studenten`, `kontextfenster`, `zutilo`, `zotero-id`, `quantisierung`, `modellwahl`.)*

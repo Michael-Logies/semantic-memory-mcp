@@ -59,6 +59,13 @@ Then register the server in your AI agent's MCP configuration (example for Qwen 
 
 See `mcp-config.json` for a template. `usage-notes.md` contains practical guidance for working with an agent that has persistent memory (context management, what to store, tagging).
 
+## Documentation for your AI agent
+
+Two documents ship with this repository, written for the agent rather than the human (both CC0-licensed):
+
+- **`memory-mcp-knowledge.md`** — the rules and learning protocol for operating the memory server in daily agent work: when to read, when to write, what to store, and how to tag it.
+- **`zotero-mcp-agent-knowledge.md`** — hard-won knowledge about connecting Zotero with AI agents via MCP servers: tool comparison (zotero-mcp-server, Zoteus, pyzotero, CLI access), benchmarks, and best practices. Since 31 August 2026, **Zoteus** is the sole Zotero MCP server in the reference setup; the older ChromaDB-based material is kept as background, not as a recommendation.
+
 ## The bigger picture
 
 This server is the memory layer of a reproducible **AI workstation for students** — a complete setup guide (research, learning, literature work on a Linux machine) documented step by step here:

@@ -1,0 +1,155 @@
+{
+  "_comment": "Alltagswort -> Fachbegriff-Bruecken fuer die Query-Expansion des Memory-Servers (20.9.2026). Generische Domaenen-Bridges, keine Test-Trigger. memory_search haengt die expand-Terme unsichtbar an FTS und Query-Embedding an. MEMORY_SYNONYMS=0 schaltet aus.",
+  "groups": [
+    {
+      "match": [
+        "tresor",
+        "passwortsafe",
+        "passwortdatenbank",
+        "passwort-verwaltung",
+        "safe"
+      ],
+      "expand": [
+        "keepassxc",
+        "passwort-datenbank"
+      ]
+    },
+    {
+      "match": [
+        "mailprogramm",
+        "mail-programm",
+        "postfach",
+        "mailordner",
+        "mail-ordner",
+        "nachrichtenprogramm"
+      ],
+      "expand": [
+        "thunderbird",
+        "entwuerfe"
+      ]
+    },
+    {
+      "match": [
+        "denk-niveau",
+        "denkstufe",
+        "gruebelstufe",
+        "nachdenkstufe",
+        "denk-tiefe",
+        "denkleistung"
+      ],
+      "expand": [
+        "reasoning",
+        "effort"
+      ]
+    },
+    {
+      "match": [
+        "codeplattform",
+        "quellcode-plattform",
+        "codeplattformen"
+      ],
+      "expand": [
+        "github"
+      ]
+    },
+    {
+      "match": [
+        "kommandozeile",
+        "kommandozeilen",
+        "befehlszeile",
+        "terminal-fenster",
+        "konsole"
+      ],
+      "expand": [
+        "cli",
+        "terminal"
+      ]
+    },
+    {
+      "match": [
+        "startetnicht",
+        "hochfahren",
+        "bootet"
+      ],
+      "expand": [
+        "boot",
+        "crash",
+        "neustart"
+      ]
+    },
+    {
+      "match": [
+        "bibliothekssoftware",
+        "literaturverwaltung",
+        "buecherei",
+        "bibliothek",
+        "bibliotheksverwaltung"
+      ],
+      "expand": [
+        "zotero",
+        "literatur"
+      ]
+    },
+    {
+      "match": [
+        "typfehler",
+        "typ-fehler"
+      ],
+      "expand": [
+        "typeerror"
+      ]
+    },
+    {
+      "match": [
+        "kurzzusammenfassung",
+        "kurzzusammenfassungen",
+        "kurzfassung"
+      ],
+      "expand": [
+        "abstract",
+        "kurzzusammenfassung"
+      ]
+    },
+    {
+      "match": [
+        "dateipfad",
+        "dateipfade",
+        "speicherort"
+      ],
+      "expand": [
+        "pfad",
+        "path"
+      ]
+    },
+    {
+      "match": [
+        "anhang",
+        "anhangs",
+        "anhaenge"
+      ],
+      "expand": [
+        "attachment",
+        "anhang"
+      ]
+    },
+    {
+      "match": [
+        "anzulegen"
+      ],
+      "expand": [
+        "anlegen"
+      ]
+    },
+    {
+      "match": [
+        "übersetzung",
+        "uebersetzung",
+        "übersetzt",
+        "uebersetzt"
+      ],
+      "expand": [
+        "translation"
+      ]
+    }
+  ]
+}

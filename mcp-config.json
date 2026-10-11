@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "memory": {
+      "command": "/path/to/venv/bin/python3",
+      "args": ["/path/to/memory_server.py"],
+      "transport": "stdio"
+    }
+  }
+}

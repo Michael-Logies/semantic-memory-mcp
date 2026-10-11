@@ -51,11 +51,13 @@ bash verify.sh     # checks the installation, writes a report
 
 The embedding model is downloaded automatically from Hugging Face (`huggingface_hub`, no account needed).
 
-**Alternative: pip install from GitHub** — no clone needed; the package ships a `semantic-memory-mcp` command, and the embedding model (~113 MB) downloads automatically on first start:
+**Alternative: pip install** — no clone needed; the package ships a `semantic-memory-mcp` command, and the embedding model (~113 MB) downloads automatically on first start:
 
 ```bash
 python3 -m venv ~/.venv-memory
-~/.venv-memory/bin/pip install git+https://github.com/Michael-Logies/semantic-memory-mcp.git
+~/.venv-memory/bin/pip install semantic-memory-mcp    # from PyPI
+# or directly from this repository:
+# ~/.venv-memory/bin/pip install git+https://github.com/Michael-Logies/semantic-memory-mcp.git
 ```
 
 Then register the server in your AI agent's MCP configuration (example for Qwen Code, `~/.qwen/settings.json`):

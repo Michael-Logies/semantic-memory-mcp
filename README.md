@@ -8,7 +8,7 @@
 
 - **Cross-session memory:** notes survive between sessions; the agent searches its own memory at the start of every task instead of relying on the user to re-explain context.
 - **Hybrid retrieval:** keyword full-text search (SQLite FTS5) and semantic vector search (sqlite-vec) are combined through Reciprocal Rank Fusion — a note can be found by exact wording *or* by meaning.
-- **Multilingual embeddings:** quantized ONNX model (`Xenova/multilingual-e5-small`, ~22 MB) runs locally on CPU. English and German work equally well; no OpenAI key required.
+- **Multilingual embeddings:** quantized ONNX model (`Xenova/multilingual-e5-small`, ~113 MB) runs locally on CPU. English and German work equally well; no OpenAI key required.
 - **Trivially auditable:** the whole server is a single readable file (`memory_server.py`, ~1,100 lines). There is no hidden state beyond the SQLite file.
 
 ### Tools
@@ -40,7 +40,7 @@ You can run several agent sessions at the same time — they all share one memor
 
 ## Installation
 
-**Prerequisites:** Linux, Python 3.11+ with `venv`, ~250 MB free disk space. The server is written for Linux, but not limited to it: since everything is one Python file, any AI assistant can read the script and adapt the installation for Windows or macOS.
+**Prerequisites:** Linux, Python 3.11+ with `venv`, ~500 MB free disk space (virtual environment plus embedding model). The server is written for Linux, but not limited to it: since everything is one Python file, any AI assistant can read the script and adapt the installation for Windows or macOS.
 
 ```bash
 git clone https://github.com/Michael-Logies/semantic-memory-mcp.git
@@ -50,6 +50,13 @@ bash verify.sh     # checks the installation, writes a report
 ```
 
 The embedding model is downloaded automatically from Hugging Face (`huggingface_hub`, no account needed).
+
+**Alternative: pip install from GitHub** — no clone needed; the package ships a `semantic-memory-mcp` command, and the embedding model (~113 MB) downloads automatically on first start:
+
+```bash
+python3 -m venv ~/.venv-memory
+~/.venv-memory/bin/pip install git+https://github.com/Michael-Logies/semantic-memory-mcp.git
+```
 
 Then register the server in your AI agent's MCP configuration (example for Qwen Code, `~/.qwen/settings.json`):
 
@@ -65,9 +72,12 @@ Then register the server in your AI agent's MCP configuration (example for Qwen 
 }
 ```
 
-If your client has an `mcp add` command, registration is a one-liner once `setup.sh` has created the venv:
+If your client has an `mcp add` command, registration is a one-liner once the venv exists (with the pip installation, use the packaged `~/.venv-memory/bin/semantic-memory-mcp` as the single command instead of `python3 …/memory_server.py`):
 
 ```bash
+# Qwen Code (note: no `--` separator)
+qwen mcp add memory ~/.venv-memory/bin/python3 /path/to/semantic-memory-mcp/memory_server.py
+
 # Claude Code
 claude mcp add memory -- ~/.venv-memory/bin/python3 /path/to/semantic-memory-mcp/memory_server.py
 

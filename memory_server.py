@@ -30,7 +30,8 @@ from tokenizers import Tokenizer
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-MODEL_DIR = Path.home() / ".qwen" / "models" / "multilingual-e5-small"
+MODEL_DIR = Path(os.environ.get(
+    "MEMORY_MODEL_DIR", str(Path.home() / ".qwen" / "models" / "multilingual-e5-small")))
 MODEL_PATH = MODEL_DIR / "model_quantized.onnx"
 TOKENIZER_PATH = MODEL_DIR / "tokenizer.json"
 DB_PATH = Path(os.environ.get("MEMORY_DB_PATH", str(Path.home() / ".qwen" / "memory.db")))
@@ -55,9 +56,38 @@ _ort_session: ort.InferenceSession | None = None
 _tokenizer: Tokenizer | None = None
 
 
+def _download_model():
+    """Download the embedding model on first use (mirrors setup.sh).
+
+    Only runs when the model files are missing — installations created by
+    setup.sh already have them, so this is a no-op there. The ONNX file sits
+    in the repo under onnx/ but the server expects it flat next to
+    tokenizer.json, hence the explicit mapping.
+    """
+    import shutil
+    from huggingface_hub import hf_hub_download
+
+    MODEL_DIR.mkdir(parents=True, exist_ok=True)
+    mapping = {
+        "onnx/model_quantized.onnx": "model_quantized.onnx",
+        "tokenizer.json": "tokenizer.json",
+        "config.json": "config.json",
+        "tokenizer_config.json": "tokenizer_config.json",
+        "special_tokens_map.json": "special_tokens_map.json",
+    }
+    for repo_path, dest_name in mapping.items():
+        dest = MODEL_DIR / dest_name
+        if dest.exists():
+            continue
+        src = hf_hub_download("Xenova/multilingual-e5-small", repo_path)
+        shutil.copyfile(src, dest)
+
+
 def _ensure_embedder():
     global _ort_session, _tokenizer
     if _ort_session is None:
+        if not MODEL_PATH.exists() or not TOKENIZER_PATH.exists():
+            _download_model()
         _ort_session = ort.InferenceSession(str(MODEL_PATH))
     if _tokenizer is None:
         _tokenizer = Tokenizer.from_file(str(TOKENIZER_PATH))

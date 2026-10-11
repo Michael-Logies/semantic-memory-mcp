@@ -85,6 +85,8 @@ claude mcp add memory -- ~/.venv-memory/bin/python3 /path/to/semantic-memory-mcp
 codex mcp add memory -- ~/.venv-memory/bin/python3 /path/to/semantic-memory-mcp/memory_server.py
 ```
 
+The Qwen Code and Claude Code commands were verified against the locally installed CLIs. The **Codex line was not tested by us** — its syntax was adopted from the documentation of other projects, since we only use Qwen Code ourselves.
+
 See `mcp-config.json` for a template. `usage-notes.md` contains practical guidance for working with an agent that has persistent memory (context management, what to store, tagging, parallel sessions); the German version ships as `nutzungshinweise.md`.
 
 ## Documentation for your AI agent

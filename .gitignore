@@ -1,0 +1,7 @@
+__pycache__/
+*.bak*
+*.db
+*.sqlite
+models/
+memory-install-report.md
+.venv*

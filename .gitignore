@@ -5,3 +5,5 @@ __pycache__/
 models/
 memory-install-report.md
 .venv*
+build/
+*.egg-info/

@@ -563,7 +563,13 @@ def _zsync_do_sync(db: sqlite3.Connection, learn: bool = False) -> dict:
     user_id = cfg.get("user_id") or _zsync_user_id(key)
     if not user_id:
         raise RuntimeError("userID konnte nicht vom Key abgeleitet werden")
-    base = f"https://api.zotero.org/users/{user_id}"
+    # Seit 17.10.2026: Backup läuft in der Zotero-Gruppe „memory-mcp-backup"
+    # (group_id in zotero-sync.json); ohne group_id wie bisher users/<id>.
+    group_id = cfg.get("group_id")
+    if group_id:
+        base = f"https://api.zotero.org/groups/{group_id}"
+    else:
+        base = f"https://api.zotero.org/users/{user_id}"
     collection = cfg.get("collection") or f"{ZOTERO_SYNC_PREFIX} — {device}"
 
     # --- Eigene Notizen (read) ---
@@ -630,7 +636,9 @@ def _zsync_do_sync(db: sqlite3.Connection, learn: bool = False) -> dict:
         data["note"] = note_html_upd
         data["tags"] = [{"tag": "ki-gedaechtnis-backup"}]
         data["collections"] = [coll]
-        payload = {"key": ex["key"], "version": ex["version"], **data}
+        # version aus dem frischen Einzel-GET — ex["version"] ist durch evtl.
+        # Creates desselben Laufs veraltet (globale Versionsnummer, 412-Gefahr)
+        payload = {"key": ex["key"], "version": full["version"], **data}
         s, _ = _zsync_call("PUT", base + "/items/" + ex["key"], payload, key=key)
         if s == 204:
             updated += 1

@@ -2,7 +2,7 @@
 
 > **Purpose:** This document captures the rules and the learning protocol for operating a cross-session memory MCP server in daily agent work. It is designed to be consumed by any AI agent (Qwen Code, Kimi Code, Claude Code, etc.) — so you don't have to take the same detours we took. It complements the setup package (`memory-mcp-setup.zip`) with the part that took the longest to get right: **when to read, when to write, and how the rules evolved.**
 >
-> **Last updated:** 2026-10-11
+> **Last updated:** 2026-11-09
 > **Source:** Michael Logies, ~7 weeks of practical daily use with a local Memory-MCP server (SQLite + sqlite-vec + FTS5 + ONNX embeddings).
 > **License:** CC0 — use freely, no attribution required.
 
@@ -104,6 +104,16 @@ When several agent sessions run in parallel, "where did I stop?" has no single a
 - **Source = agent + model**, e.g. `Qwen Code / GLM-5.3-flash`. Record both: the agent alone says little about the model that actually did the thinking. Provenance belongs in `source`, **not** in tags — tags are stored but not indexed (the FTS index covers only the content and the anchor line, so there is no tag filter), while `source` is returned and displayed with every hit.
 - *"Where did we stop on X?"* is then a normal `memory_search` — across all parallel sessions at once.
 
+### R18 — Keep the file-based auto-memory index under its budget
+
+Most agent setups run a file-based "auto-memory" **next to** this server: always-on index files (e.g. Qwen Code: one `MEMORY.md` per user and project scope) that are loaded whole into context. These have hard size limits (~25,000 UTF-16 characters in Qwen Code) and **silently drop entries beyond the limit — alphabetically at the end**, i.e. often exactly the newest references. From continuous operation (as of November 2026), three practices keep that index healthy:
+
+- **Target ~10 % below the limit** (here: ≤ 22,500) and measure at every session start; report any overrun to the user immediately, archive only after approval — core rules, roles and active projects stay off limits.
+- **Shorten without information loss first:** description fields ≤ 90 characters, strip dates from titles (the date lives in the file name), merge series such as per-round reports into one consolidated report.
+- **Router instead of full index:** large domains keep a single index line with trigger terms; the actual files live outside the scan path and are loaded on demand. A second anchor (a router note in this server) keeps them discoverable via hybrid search.
+
+Automatic safeguarding needs no AI: an LLM-free cron script measures the index sizes daily and mails a warning when the target is exceeded; the content-level trimming runs weekly as a round that prepares approval lists.
+
 ---
 
 ## 3. What to store (and what makes an entry good)
@@ -139,6 +149,7 @@ This section documents the **fixed learning rules and their dates** — because 
 | 2026-09-19 | **Phase-0 analysis:** 226 of 446 entries (over 50 %) exceeded one embedding chunk; the long tail came from session handoffs, not rules | Write rules R14–R16: one entry = one topic, ≤ ~600 characters, long content as short version + file pointer, first line as a maintained search anchor |
 | 2026-09-19 to 20 | **Consolidation:** 39 outdated notes deleted, 28 oversized notes reduced to short version + file pointer (446 → 403 notes) | R10 executed consistently for the first time; measurement confirmed: pointerization improves ranking in both baskets, one single marginal hit was lost |
 | 2026-09-20 | **Search fine-tuning measured:** keyword arm 0.85× in the fusion, anchor boost, everyday→domain dictionary (query expansion), chunk overlap removed | Vocabulary gaps (everyday language ↔ domain terms) are the dominant failure mode of search — and fixable with a maintained dictionary: the hardest basket rose from 68.4 % to 89.2 % (Recall@5) |
+| 2026-11-09 | File-based auto-memory indexes silently drop entries past their size limit (newest entries first — they sit alphabetically at the end); countermeasures codified from continuous operation | **R18:** target ~10 % below the limit and measure every session, information-loss-free shortening first (descriptions, dates in titles, series→consolidated reports), router lines instead of full indexes, LLM-free watchdog cron |
 
 **Meta-lessons from the timeline:**
 

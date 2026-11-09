@@ -38,6 +38,10 @@ Retrieval quality was tracked throughout development. Recall@5 — the share of 
 
 You can run several agent sessions at the same time — they all share one memory. Instead of a single "where did I stop?" slot that parallel sessions would overwrite, each session ends its work with a short **checkpoint note** in the memory (topic, what was done, what is open, next step), with the writing agent and model recorded in the `source` field. Asking any window *"Where did we stop on X?"* then finds the answer — even if the work happened in a different window. The convention is part of the agent rules (`memory-mcp-knowledge.md`, R17).
 
+## Budget hygiene for file-based auto-memory
+
+Many setups run a file-based "auto-memory" next to this server — always-on index files (such as `MEMORY.md`) with a hard size limit, past which entries are **silently dropped**, usually the newest ones. The countermeasures that proved themselves in continuous operation (target ~10 % below the limit, measured at every session; information-loss-free shortening first; router lines instead of full indexes; an LLM-free watchdog cron) are codified as rule **R18** in [`memory-mcp-knowledge.md`](memory-mcp-knowledge.md), with the full write-up on the [project page](https://www.logies.de/memory-mcp-for-ai-agents.html).
+
 ## Installation
 
 **Prerequisites:** Linux, Python 3.11+ with `venv`, ~500 MB free disk space (virtual environment plus embedding model). The server is written for Linux, but not limited to it: since everything is one Python file, any AI assistant can read the script and adapt the installation for Windows or macOS.

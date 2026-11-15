@@ -1,7 +1,8 @@
 # Memory-MCP Server - Core Dependencies
 # Install: pip install -r requirements.txt
 
-fastmcp==3.4.7
+# fastmcp 3.4.10 = Sicherheits-Pin (seit v1.0.4): >=3.0.0 <3.4.10 hat einen post-transform authorization bypass
+fastmcp==3.4.10
 onnxruntime==1.29.0
 sqlite-vec==0.1.9
 huggingface_hub==1.28.0

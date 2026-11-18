@@ -30,7 +30,7 @@ This server was built as a working reference implementation and **measured, not 
 
 ## Evaluation
 
-Retrieval quality was tracked throughout development. Recall@5 — the share of queries where the correct note is among the top 5 hits — rose from **68.4 % to 89.2 %** across successive, individually measured optimization steps (chunking, embedding model choice, query rewriting, and more). The full measurement series with a 22-study comparison table is documented here:
+Retrieval quality was tracked throughout development. Recall@5 — the share of queries where the correct note is among the top 5 hits — rose from **68.4 % to 95.2 %** across successive, individually measured optimization steps (chunking, embedding model choice, query rewriting, note consolidation, keyline anchors, and more) over **181 measured queries in five baskets**. The full measurement series with a 26-work comparison table is documented here:
 
 **[The Memory Server in the Lab](https://www.logies.de/memory-server-research.html)**
 

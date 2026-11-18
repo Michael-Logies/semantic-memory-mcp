@@ -94,6 +94,8 @@ The **first line of every entry is weighted preferentially at search time** (a s
 
 *Background:* fact-key studies measure +9.4 % recall from title-like key lines; in our own system the anchor boost delivered the largest single gains of the tuning round (the embedding prefix alone lifted top-1 hits by 6.5 percentage points).
 
+*Addendum Nov 18, 2026 (measured: fresh-notes basket 57.1 % → 95.2 % Recall@5):* for series notes on the same topic the keyline must state the distinction explicitly ("CURRENT version since …" vs. "OUTDATED version, superseded on … by …"); evidence notes carry the chain plus their most distinctive fact in line 1 (e.g. "final suite count R5: 3949 OK"). Sharpen only the keyline — leave the body untouched.
+
 ### R17 — End every session with a checkpoint note (parallel sessions)
 
 When several agent sessions run in parallel, "where did I stop?" has no single answer — a single "last session" slot would simply be overwritten by whichever session closes next. Instead, **every session writes one checkpoint note at the end of its work** (or before pausing):
